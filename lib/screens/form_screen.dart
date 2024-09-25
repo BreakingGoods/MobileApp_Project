@@ -65,7 +65,7 @@ class FormScreen extends StatelessWidget {
                       onPressed: () {
                             if (formKey.currentState!.validate())
                               {
-                                // create transaction data object
+                              
                                 var statement = Transaction(
                                     title: titleController.text,
                                     year: double.parse(yearController.text),
@@ -73,7 +73,7 @@ class FormScreen extends StatelessWidget {
                                    
                                     );
                               
-                                // add transaction data object to provider
+                         
                                 var provider = Provider.of<TransactionProvider>(context, listen: false);
                                 
                                 provider.addTransaction(statement);

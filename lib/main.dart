@@ -51,69 +51,68 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(
-          widget.title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold, 
-            fontSize: 20,
-          ),
-          ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return FormScreen();
-              }));
-            },
-          ),
-        ],
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      title: Text(
+        widget.title,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold, 
+          fontSize: 20,
+        ),
       ),
-      body: Consumer<TransactionProvider>(
-        builder: (context, provider, child) {
-          return ListView.builder(
-            itemCount: provider.transactions.length,
-            itemBuilder: (context, index) {
-              return Card(
-                elevation: 5,
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-                child: ListTile(
-                  title: Text(provider.transactions[index].title),
-                  subtitle: Text(provider.transactions[index].gentr),
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: FittedBox(
-                      child: Text('${provider.transactions[index].year}'),
-                    ),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Checkbox(
-                        value: provider.transactions[index].watched ?? false,
-                        onChanged: (bool? value) {
-                          provider.toggleWatched(index);
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          provider.deleteTransaction(index);
-                        },
-                      ),
-                    ],
-                  ),
+    ),
+    body: Consumer<TransactionProvider>(
+      builder: (context, provider, child) {
+        return ListView.builder(
+          itemCount: provider.transactions.length,
+          itemBuilder: (context, index) {
+            return Card(
+              elevation: 5,
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+              child: ListTile(
+                title: Text(provider.transactions[index].title),
+                subtitle: Text(
+                  '${provider.transactions[index].gentr} | ${provider.transactions[index].year.toInt()}', 
                 ),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
+                leading: const CircleAvatar(
+                  radius: 30,
+                  child: Icon(Icons.movie),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Checkbox(
+                      value: provider.transactions[index].watched ?? false,
+                      onChanged: (bool? value) {
+                        provider.toggleWatched(index);
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        provider.deleteTransaction(index);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return FormScreen();
+        }));
+      },
+      child: const Icon(Icons.add),
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+  );
+}
 }
