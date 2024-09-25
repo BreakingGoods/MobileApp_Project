@@ -15,7 +15,7 @@ class FormScreen extends StatelessWidget {
   
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Movie Data'),
+          title: const Text('แบบฟอร์มข้อมูล'),
         ),
         body: Form(
             key: formKey,
@@ -23,7 +23,7 @@ class FormScreen extends StatelessWidget {
               children: [
                 TextFormField(
                   decoration: const InputDecoration(
-                    labelText: 'Movie Title',
+                    labelText: 'ชื่อรายการ',
                   ),
                   autofocus: true,
                   controller: titleController,
@@ -35,7 +35,7 @@ class FormScreen extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    labelText: 'ปีที่ฉาย',
+                    labelText: 'จำนวนเงิน',
                   ),
                   keyboardType: TextInputType.number,
                   controller: amountController,
@@ -50,18 +50,6 @@ class FormScreen extends StatelessWidget {
                     }
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Genre',
-                  ),
-                  autofocus: true,
-                  controller: titleController,
-                  validator: (String? str) {
-                    if (str!.isEmpty) {
-                      return 'กรุณากรอกข้อมูล';
-                    }
-                  },
-                ),
                 TextButton(
                     child: const Text('บันทึก'),
                     onPressed: () {
@@ -70,8 +58,8 @@ class FormScreen extends StatelessWidget {
                               // create transaction data object
                               var statement = Transaction(
                                   title: titleController.text,
-                                  year: double.parse(amountController.text),
-                                  date: DateTime.now(), genre: ''
+                                  amount: double.parse(amountController.text),
+                                  date: DateTime.now()
                                   );
                             
                               // add transaction data object to provider

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const MyHomePage(title: 'Movie'),
+        home: const MyHomePage(title: 'แอพบัญชี'),
       ),
     );
   }
@@ -81,14 +81,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     leading: CircleAvatar(
                       radius: 30,
                       child: FittedBox(
-                        child: Text('${provider.transactions[index].year}'),
+                        child: Text('${provider.transactions[index].amount}'),
                       ),
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
-                      onPressed: (){
-                        provider.deleteTransaction(index);
-                      },
+                      onPressed: () {},
                     ),
                   ),
                 );
