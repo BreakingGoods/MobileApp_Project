@@ -3,9 +3,9 @@ import 'package:account/models/transaction.dart';
 
 class TransactionProvider with ChangeNotifier {
   List<Transaction> transactions = [
-    Transaction(title: 'หนังสือ', amount: 300, date: DateTime.now()),
-    Transaction(title: 'เสื้อ', amount: 500, date: DateTime.now()),
-    Transaction(title: 'รองเท้า', amount: 1000, date: DateTime.now()),
+    Transaction(title: 'หนังสือ', year: 300, date: DateTime.now(),genre:''),
+    Transaction(title: 'เสื้อ', year: 500, date: DateTime.now(),genre: ''),
+    Transaction(title: 'รองเท้า', year: 1000, date: DateTime.now(),genre: ''),
   ];
 
   List<Transaction> getTransaction() {
