@@ -8,69 +8,86 @@ class FormScreen extends StatelessWidget {
 
   final formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  final yearController = TextEditingController();
+  final gentrController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
   
-    return Scaffold(
+    var scaffold = Scaffold(
         appBar: AppBar(
           title: const Text('แบบฟอร์มข้อมูล'),
         ),
-        body: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'ชื่อรายการ',
-                  ),
-                  autofocus: true,
-                  controller: titleController,
-                  validator: (String? str) {
-                    if (str!.isEmpty) {
-                      return 'กรุณากรอกข้อมูล';
-                    }
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'จำนวนเงิน',
-                  ),
-                  keyboardType: TextInputType.number,
-                  controller: amountController,
-                  validator: (String? input) {
-                    try {
-                      double amount = double.parse(input!);
-                      if (amount < 0) {
-                        return 'กรุณากรอกข้อมูลมากกว่า 0';
-                      }
-                    } catch (e) {
-                      return 'กรุณากรอกข้อมูลเป็นตัวเลข';
-                    }
-                  },
-                ),
-                TextButton(
-                    child: const Text('บันทึก'),
-                    onPressed: () {
-                          if (formKey.currentState!.validate())
-                            {
-                              // create transaction data object
-                              var statement = Transaction(
-                                  title: titleController.text,
-                                  amount: double.parse(amountController.text),
-                                  date: DateTime.now()
-                                  );
-                            
-                              // add transaction data object to provider
-                              var provider = Provider.of<TransactionProvider>(context, listen: false);
-                              
-                              provider.addTransaction(statement);
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+              key: formKey,
+              child: Column(
 
-                              Navigator.pop(context);
-                            }
-                        })
-              ],
-            )));
+                children: [
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'ชื่อรายการ',
+                    ),
+                    autofocus: true,
+                    controller: titleController,
+                    validator: (String? str) {
+                      if (str!.isEmpty) {
+                        return 'กรุณากรอกข้อมูล';
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Year',
+                    ),
+                    keyboardType: TextInputType.number,
+                    controller: yearController,
+                    validator: (String? input) {
+                      try {
+                        double amount = double.parse(input!);
+                        if (amount < 0) {
+                          return 'กรุณากรอกข้อมูลมากกว่า 0';
+                        }
+                      } catch (e) {
+                        return 'กรุณากรอกข้อมูลเป็นตัวเลข';
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                    labelText: 'gentr'
+                    ),
+                    controller: gentrController,
+                  ),
+                  TextButton(
+                      child: const Text('บันทึก'),
+                      onPressed: () {
+                            if (formKey.currentState!.validate())
+                              {
+                                // create transaction data object
+                                var statement = Transaction(
+                                    title: titleController.text,
+                                    year: double.parse(yearController.text),
+                                    gentr: gentrController.text
+                                   
+                                    );
+                              
+                                // add transaction data object to provider
+                                var provider = Provider.of<TransactionProvider>(context, listen: false);
+                                
+                                provider.addTransaction(statement);
+          
+                                Navigator.pop(context);
+                              }
+                          },
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white, backgroundColor:Colors.blue,
+                        ) ,)
+                        
+                ],
+              )),
+        ));
+    return scaffold;
   }
 }

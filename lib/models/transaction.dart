@@ -1,13 +1,16 @@
 class Transaction {
   // final String id;
   final String title;
-  final double amount;
-  final DateTime date;
+  final double year;
+  final String gentr;
+  bool watched;
 
   Transaction({
     // required this.id,
     required this.title,
-    required this.amount,
-    required this.date,
+    required this.year,
+    required this.gentr,
+    this.watched = false,
+   
   });
 }

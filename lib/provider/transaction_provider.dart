@@ -3,9 +3,9 @@ import 'package:account/models/transaction.dart';
 
 class TransactionProvider with ChangeNotifier {
   List<Transaction> transactions = [
-    Transaction(title: 'หนังสือ', amount: 300, date: DateTime.now()),
-    Transaction(title: 'เสื้อ', amount: 500, date: DateTime.now()),
-    Transaction(title: 'รองเท้า', amount: 1000, date: DateTime.now()),
+    Transaction(title: 'Movie 1', year: 2024,gentr: 'Horror'),
+    Transaction(title: 'Movie 2', year: 2024,gentr: 'Comedy'),
+    Transaction(title: 'Movie 3', year:2024,gentr: 'Horror'),
   ];
 
   List<Transaction> getTransaction() {
@@ -20,5 +20,15 @@ class TransactionProvider with ChangeNotifier {
   void deleteTransaction(int index) {
     transactions.removeAt(index);
     notifyListeners(); 
+  }
+
+  void toggleWatched(int index) {
+    transactions[index].watched = !transactions[index].watched;
+    notifyListeners();
+  }
+
+  void deleteTransactions(int index) {
+    transactions.removeAt(index);
+    notifyListeners();
   }
 }

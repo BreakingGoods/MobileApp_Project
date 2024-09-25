@@ -1,7 +1,9 @@
+import 'dart:ffi';
+
 class Transactions {
   // final String id;
   final String title;
-  final double year;
+  final Float year;
   final DateTime date;
 
 
