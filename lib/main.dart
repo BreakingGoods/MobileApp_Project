@@ -86,7 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
-                      onPressed: () {},
+                      onPressed: () {
+                        provider.deleteTransaction(index);
+                      },
                     ),
                   ),
                 );
