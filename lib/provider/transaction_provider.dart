@@ -27,5 +27,9 @@ class TransactionProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateTransaction(int index, Transaction updateTransaction){
+    transactions[index] = updateTransaction;
+    notifyListeners();
+  }
 }
 

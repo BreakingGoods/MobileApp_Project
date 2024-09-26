@@ -4,7 +4,7 @@ class Transaction {
   final double year;
   final String gentr;
   bool watched;
-
+  
   Transaction({
 
     required this.title,

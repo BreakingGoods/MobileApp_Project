@@ -25,8 +25,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const MyHomePage(title: 'Movie Checklist'),
-        
-        
       ),
     );
   }
@@ -42,77 +40,83 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      title: Text(
-        widget.title,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold, 
-          fontSize: 20,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Text(
+          widget.title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
       ),
-    ),
-    body: Consumer<TransactionProvider>(
-      builder: (context, provider, child) {
-        return ListView.builder(
-          itemCount: provider.transactions.length,
-          itemBuilder: (context, index) {
-            return Card(
-              elevation: 5,
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-              child: ListTile(
-                title: Text(provider.transactions[index].title),
-                subtitle: Text(
-                  '${provider.transactions[index].gentr} | ${provider.transactions[index].year.toInt()}', 
+      body: Consumer<TransactionProvider>(
+        builder: (context, provider, child) {
+          return ListView.builder(
+            itemCount: provider.transactions.length,
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 5,
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                child: ListTile(
+                  title: Text(provider.transactions[index].title),
+                  subtitle: Text(
+                    '${provider.transactions[index].gentr} | ${provider.transactions[index].year.toInt()}',
+                  ),
+                  leading: const CircleAvatar(
+                    radius: 30,
+                    child: Icon(Icons.movie),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Checkbox(
+                        value: provider.transactions[index].watched ?? false,
+                        onChanged: (bool? value) {
+                          provider.toggleWatched(index);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return FormScreen(
+                              isEditing: true,
+                              movieIndex: index,
+                              movie: provider.transactions[index],
+                            );
+                          }));
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          provider.deleteTransaction(index);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                leading: const CircleAvatar(
-                  radius: 30,
-                  child: Icon(Icons.movie),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Checkbox(
-                      value: provider.transactions[index].watched ?? false,
-                      onChanged: (bool? value) {
-                        provider.toggleWatched(index);
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        provider.deleteTransaction(index);
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              );
+            },
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return FormScreen(
+              isEditing: false,
             );
-          },
-        );
-      },
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return FormScreen();
-        }));
-      },
-      child: const Icon(Icons.add),
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-  );
-}
+          }));
+        },
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
 }
