@@ -35,7 +35,7 @@ class FormScreen extends StatelessWidget {
             children: [
               TextFormField(
                 decoration: const InputDecoration(
-                  labelText: 'ชื่อรายการ',
+                  labelText: 'Movie Title',
                 ),
                 autofocus: true,
                 controller: titleController,
@@ -65,11 +65,17 @@ class FormScreen extends StatelessWidget {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'gentr'),
+                decoration: const InputDecoration(labelText: 'Genre'),
                 controller: gentrController,
+                validator: (String? str) {
+                  if (str!.isEmpty) {
+                    return 'กรุณากรอกข้อมูล';
+                  }
+                  return null; 
+                },
               ),
               TextButton(
-                child: const Text('บันทึก'),
+                child: const Text('Save'),
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     var statement = Transaction(
