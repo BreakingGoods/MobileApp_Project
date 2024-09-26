@@ -28,14 +28,21 @@ class FormScreen extends StatelessWidget {
         title: const Text('แบบฟอร์มข้อมูล'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0), // Increase padding for more spacing
         child: Form(
           key: formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Movie Title',
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 1.0), // Thin border
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue.withOpacity(0.5), width: 1.0),
+                  ),
                 ),
                 autofocus: true,
                 controller: titleController,
@@ -46,9 +53,16 @@ class FormScreen extends StatelessWidget {
                   return null; 
                 },
               ),
+              const SizedBox(height: 16), 
               TextFormField(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Year',
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue.withOpacity(0.5), width: 1.0),
+                  ),
                 ),
                 keyboardType: TextInputType.number,
                 controller: yearController,
@@ -64,8 +78,17 @@ class FormScreen extends StatelessWidget {
                   return null;
                 },
               ),
+              const SizedBox(height: 16),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Genre'),
+                decoration: InputDecoration(
+                  labelText: 'Genre',
+                  border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue.withOpacity(0.5), width: 1.0),
+                  ),
+                ),
                 controller: gentrController,
                 validator: (String? str) {
                   if (str!.isEmpty) {
@@ -74,32 +97,36 @@ class FormScreen extends StatelessWidget {
                   return null; 
                 },
               ),
-              TextButton(
-                child: const Text('Save'),
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    var statement = Transaction(
-                      title: titleController.text,
-                      year: double.parse(yearController.text),
-                      gentr: gentrController.text,
-                    );
+              const SizedBox(height: 32), // More spacing before button
+              Center( // Center the button horizontally
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      var statement = Transaction(
+                        title: titleController.text,
+                        year: double.parse(yearController.text),
+                        gentr: gentrController.text,
+                      );
 
-                    var provider = Provider.of<TransactionProvider>(context, listen: false);
+                      var provider = Provider.of<TransactionProvider>(context, listen: false);
 
-                    if (isEditing && movieIndex != null) {
-               
-                      provider.updateTransaction(movieIndex!, statement);
-                    } else {
-                 
-                      provider.addTransaction(statement);
+                      if (isEditing && movieIndex != null) {
+                        provider.updateTransaction(movieIndex!, statement);
+                      } else {
+                        provider.addTransaction(statement);
+                      }
+
+                      Navigator.pop(context); 
                     }
-
-                    Navigator.pop(context); 
-                  }
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue[100], // Change button color to blue
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0), // Rounded corners
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0), // More padding for a bigger button
+                  ),
+                  child: const Text('Save', style: TextStyle(fontSize: 18)),
                 ),
               ),
             ],

@@ -43,8 +43,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[60],
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        
         title: Text(
           widget.title,
           style: const TextStyle(
@@ -60,8 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
             itemCount: provider.transactions.length,
             itemBuilder: (context, index) {
               return Card(
+                
                 elevation: 5,
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                 child: ListTile(
                   title: Text(provider.transactions[index].title),
                   subtitle: Text(
