@@ -7,20 +7,20 @@ class FormScreen extends StatelessWidget {
   final bool isEditing;
   final int? movieIndex;
   final Transaction? movie;
-  
+
   FormScreen({super.key, required this.isEditing, this.movieIndex, this.movie});
 
   final formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final yearController = TextEditingController();
-  final gentrController = TextEditingController();
-  
+  final genreController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     if (isEditing && movie != null) {
       titleController.text = movie!.title;
       yearController.text = movie!.year.toString();
-      gentrController.text = movie!.gentr;
+      genreController.text = movie!.genre;
     }
 
     return Scaffold(
@@ -89,7 +89,7 @@ class FormScreen extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.blue.withOpacity(0.5), width: 1.0),
                   ),
                 ),
-                controller: gentrController,
+                controller: genreController,
                 validator: (String? str) {
                   if (str!.isEmpty) {
                     return 'กรุณากรอกข้อมูล';
@@ -97,34 +97,34 @@ class FormScreen extends StatelessWidget {
                   return null; 
                 },
               ),
-              const SizedBox(height: 32), // More spacing before button
-              Center( // Center the button horizontally
+              const SizedBox(height: 32), 
+              Center( 
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      var statement = Transaction(
+                      var transaction = Transaction(
                         title: titleController.text,
                         year: double.parse(yearController.text),
-                        gentr: gentrController.text,
+                        genre: genreController.text,
                       );
 
                       var provider = Provider.of<TransactionProvider>(context, listen: false);
 
                       if (isEditing && movieIndex != null) {
-                        provider.updateTransaction(movieIndex!, statement);
+                        provider.updateTransaction(movieIndex!, transaction);
                       } else {
-                        provider.addTransaction(statement);
+                        provider.addTransaction(transaction);
                       }
 
                       Navigator.pop(context); 
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[100], // Change button color to blue
+                    backgroundColor: Colors.blue[100], 
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0), // Rounded corners
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0), // More padding for a bigger button
+                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0), 
                   ),
                   child: const Text('Save', style: TextStyle(fontSize: 18)),
                 ),

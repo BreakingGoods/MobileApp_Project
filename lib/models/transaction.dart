@@ -1,16 +1,15 @@
 class Transaction {
-
   final String title;
   final double year;
-  final String gentr;
+  final String genre;
   bool watched;
-  
-  Transaction({
+  int? id; // Add this field to store the database key
 
+  Transaction({
     required this.title,
     required this.year,
-    required this.gentr,
+    required this.genre,
     this.watched = false,
-   
+    this.id, // Add id to constructor
   });
 }

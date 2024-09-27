@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         }),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Movie Checklist',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
@@ -40,19 +40,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  
+  @override
+  void initState(){
+    super.initState();
+    Provider.of<TransactionProvider>(context,listen: false).initData();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[60],
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        
         title: Text(
           widget.title,
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 25,
           ),
         ),
       ),
@@ -62,44 +68,97 @@ class _MyHomePageState extends State<MyHomePage> {
             itemCount: provider.transactions.length,
             itemBuilder: (context, index) {
               return Card(
-                
                 elevation: 5,
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                child: ListTile(
-                  title: Text(provider.transactions[index].title),
-                  subtitle: Text(
-                    '${provider.transactions[index].gentr} | ${provider.transactions[index].year.toInt()}',
-                  ),
-                  leading: const CircleAvatar(
-                    radius: 30,
-                    child: Icon(Icons.movie),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
+                margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start, 
                     children: [
-                      Checkbox(
-                        value: provider.transactions[index].watched ?? false,
-                        onChanged: (bool? value) {
-                          provider.toggleWatched(index);
-                        },
+                      Row(
+                        children: [
+                          const CircleAvatar(
+                            radius: 30,
+                            child: Icon(Icons.movie),
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                provider.transactions[index].title,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4), 
+                              Text(
+                                '${provider.transactions[index].genre} | ${provider.transactions[index].year.toInt()}',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[600], 
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return FormScreen(
-                              isEditing: true,
-                              movieIndex: index,
-                              movie: provider.transactions[index],
-                            );
-                          }));
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          provider.deleteTransaction(index);
-                        },
+                      const SizedBox(height: 10), 
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround, 
+                        children: [
+                          Checkbox(
+                            value: provider.transactions[index].watched ?? false,
+                            onChanged: (bool? value) {
+                              provider.toggleWatched(index);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                return FormScreen(
+                                  isEditing: true,
+                                  movieIndex: index,
+                                  movie: provider.transactions[index],
+                                );
+                              }));
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Confirm Delete'),
+                                    content: const Text('Are you sure you want to delete this movie?'),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text('Delete'),
+                                        onPressed: () {
+                                          provider.deleteTransaction(index);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -119,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: const Icon(Icons.add),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
