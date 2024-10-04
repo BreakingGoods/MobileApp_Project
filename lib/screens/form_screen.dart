@@ -28,7 +28,7 @@ class FormScreen extends StatelessWidget {
         title: const Text('แบบฟอร์มข้อมูล'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0), // Increase padding for more spacing
+        padding: const EdgeInsets.all(16.0), 
         child: Form(
           key: formKey,
           child: Column(
@@ -38,7 +38,7 @@ class FormScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'Movie Title',
                   border: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 1.0), // Thin border
+                    borderSide: BorderSide(color: Colors.blue, width: 1.0),
                   ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue.withOpacity(0.5), width: 1.0),
@@ -103,10 +103,13 @@ class FormScreen extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       var transaction = Transaction(
-                        title: titleController.text,
-                        year: double.parse(yearController.text),
-                        genre: genreController.text,
-                      );
+                          id: movie?.id,  
+                          title: titleController.text,
+                          year: double.parse(yearController.text),
+                          genre: genreController.text,
+                          watched: movie?.watched ?? false,
+                        );
+
 
                       var provider = Provider.of<TransactionProvider>(context, listen: false);
 

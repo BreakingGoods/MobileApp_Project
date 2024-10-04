@@ -69,5 +69,21 @@ class TransactionDB {
   await db.close();
 }
 
+Future<void> updateDatabase(keyId.Transaction transaction) async {
+  if (transaction.id == null) {
+    throw Exception('Transaction ID cannot be null for update.');
+  }
   
+  var db = await this.openDatabase();
+  var store = intMapStoreFactory.store('movies');
+  await store.record(transaction.id!).update(db, {
+    "title": transaction.title,
+    "year": transaction.year.toString(),
+    "genre": transaction.genre,
+    "watched": transaction.watched,
+  });
+
+  await db.close();
+}
+
 }
