@@ -2,6 +2,7 @@ import 'package:account/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:account/provider/transaction_provider.dart';
+import 'package:account/screens/intel_screen.dart';
 
 class FormScreen extends StatelessWidget {
   final bool isEditing;
