@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:account/provider/transaction_provider.dart';
 import 'form_screen.dart'; 
-import 'intel_screen.dart';  // [CHANGE] Import IntelScreen to navigate to the details page.
+import 'intel_screen.dart'; 
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -16,7 +16,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     Provider.of<TransactionProvider>(context, listen: false).initData();
   }
@@ -41,10 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
           return ListView.builder(
             itemCount: provider.transactions.length,
             itemBuilder: (context, index) {
-              return InkWell(  
-                onTap: () {  
+              return InkWell(
+                onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return IntelScreen(transaction: provider.transactions[index]);  
+                    return IntelScreen(transaction: provider.transactions[index]);
                   }));
                 },
                 child: Card(
@@ -58,34 +58,25 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            const CircleAvatar(
-                              radius: 30,
-                              child: Icon(Icons.movie),
+                        ListTile(
+                          leading: const CircleAvatar(
+                            radius: 30,
+                            child: Icon(Icons.movie),
+                          ),
+                          title: Text(
+                            provider.transactions[index].title,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  provider.transactions[index].title,
-                                  style: const TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '${provider.transactions[index].genre} | ${provider.transactions[index].year.round()}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                              ],
+                          ),
+                          subtitle: Text(
+                            '${provider.transactions[index].genre} | ${provider.transactions[index].year.round()}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
                             ),
-                          ],
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Row(
