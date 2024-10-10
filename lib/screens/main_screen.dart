@@ -82,12 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Checkbox(
-                              value: provider.transactions[index].watched ?? false,
-                              onChanged: (bool? value) {
-                                provider.toggleWatched(index);
-                              },
-                            ),
                             IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () {
